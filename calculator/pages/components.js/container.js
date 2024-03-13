@@ -2,70 +2,31 @@ import { useState } from "react";
 import { Btn } from "./button";
 import { Display } from "./display";
 import "bootstrap/dist/css/bootstrap.css";
+import Calculator from "@celestial-cribe/calculate-string";
 
 const Container = () => {
   const [displayValue, setDisplayValue] = useState("");
-  const [cache, setCache] = useState("");
-  const [operator, setOperator] = useState("");
 
-  const addToDisplay = (btnVal) => {
-    switch (btnVal) {
-      case "0":
-      case "1":
-      case "2":
-      case "3":
-      case "4":
-      case "5":
-      case "6":
-      case "7":
-      case "8":
-      case "9":
-      case ".": {
-        setDisplayValue(displayValue + btnVal);
-        break;
-      }
-      case "AC": {
-        setDisplayValue(""), setCache(""), setOperator("");
-        break;
-      }
-      case "+/-": {
-        setDisplayValue(displayValue * -1);
-        break;
-      }
-      case "+":
-      case "-":
-      case "x":
-      case "/": {
-        setOperator(btnVal);
-        setCache(displayValue);
-        setDisplayValue("");
-        break;
-      }
-      case "=": {
-        switch (operator) {
-          case "+": {
-            setDisplayValue(parseFloat(cache) + parseFloat(displayValue));
-            setCache(displayValue);
-            break;
-          }
-          case "-": {
-            setDisplayValue(parseFloat(cache) - parseFloat(displayValue));
-            setCache(displayValue);
-            break;
-          }
-          case "x": {
-            setDisplayValue(parseFloat(cache) * parseFloat(displayValue));
-            setCache(displayValue);
-            break;
-          }
-          case "/": {
-            setDisplayValue(parseFloat(cache) / parseFloat(displayValue));
-            setCache(displayValue);
-            break;
-          }
-        }
-      }
-    }
+  const addCalculation = (btnVal) => {
+    setDisplayValue(displayValue + btnVal);
+  };
+
+  const resetCalculator = () => {
+    setDisplayValue("");
+  };
+
+  const removeLatestInput = () => {
+    setDisplayValue(displayValue.slice(0, -1));
+  };
+
+  const switchSign = () => {
+    setDisplayValue(displayValue * -1);
+  };
+
+  const doResult = () => {
+    let calc = new Calculator();
+    calc.calculate(displayValue);
+    setDisplayValue(calc.result);
   };
 
   return (
@@ -76,100 +37,105 @@ const Container = () => {
       <Display className="row col " displayValue={displayValue}></Display>
       <div className="row">
         <Btn
-          onClick={() => addToDisplay("AC")}
+          onClick={() => resetCalculator("AC")}
           className="col-md-6 btn-primary"
           value="AC"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("+/-")}
+          onClick={() => removeLatestInput("C")}
+          className="col-md-6 btn-primary"
+          value="C"
+        ></Btn>
+        <Btn
+          onClick={() => switchSign("+/-")}
           className="col btn-primary"
           value="+/-"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("/")}
+          onClick={() => addCalculation("/")}
           className="col btn-warning"
           value="/"
         ></Btn>
       </div>
       <div className="row">
         <Btn
-          onClick={() => addToDisplay("7")}
+          onClick={() => addCalculation("7")}
           className="col btn-dark"
           value="7"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("8")}
+          onClick={() => addCalculation("8")}
           className="col btn-dark"
           value="8"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("9")}
+          onClick={() => addCalculation("9")}
           className="col btn-dark"
           value="9"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("x")}
+          onClick={() => addCalculation("*")}
           className="col btn-warning"
           value="x"
         ></Btn>
       </div>
       <div className="row">
         <Btn
-          onClick={() => addToDisplay("4")}
+          onClick={() => addCalculation("4")}
           className="col btn-dark"
           value="4"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("5")}
+          onClick={() => addCalculation("5")}
           className="col btn-dark"
           value="5"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("6")}
+          onClick={() => addCalculation("6")}
           className="col btn-dark"
           value="6"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("-")}
+          onClick={() => addCalculation("-")}
           className="col btn-warning"
           value="-"
         ></Btn>
       </div>
       <div className="row">
         <Btn
-          onClick={() => addToDisplay("1")}
+          onClick={() => addCalculation("1")}
           className="col btn-dark"
           value="1"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("2")}
+          onClick={() => addCalculation("2")}
           className="col btn-dark"
           value="2"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("3")}
+          onClick={() => addCalculation("3")}
           className="col btn-dark"
           value="3"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("+")}
+          onClick={() => addCalculation("+")}
           className="col btn-warning"
           value="+"
         ></Btn>
       </div>
       <div className="row rounded-bottom">
         <Btn
-          onClick={() => addToDisplay("0")}
+          onClick={() => addCalculation("0")}
           className="col-md-6 btn-dark"
           value="0"
         ></Btn>
         <Btn
-          onClick={() => addToDisplay(".")}
+          onClick={() => addCalculation(".")}
           className="col btn-dark"
           value="."
         ></Btn>
         <Btn
-          onClick={() => addToDisplay("=")}
+          onClick={() => doResult("=")}
           className="col btn-warning"
           value="="
         ></Btn>
