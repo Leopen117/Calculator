@@ -36,11 +36,9 @@ const Container = () => {
       </div>
       <Display className="row col " displayValue={displayValue}></Display>
       <div className="row">
-        <Btn
-          onClick={() => resetCalculator("AC")}
-          className="col-md-6 btn-primary"
-          value="AC"
-        ></Btn>
+        <Btn onClick={() => resetCalculator()} className="col-md-6 btn-primary">
+          AC
+        </Btn>
         <Btn
           onClick={() => removeLatestInput("C")}
           className="col-md-6 btn-primary"
